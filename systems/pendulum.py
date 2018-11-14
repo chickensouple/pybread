@@ -52,4 +52,9 @@ class PendulumModel(ModelBase):
             x[0] -= 2 * np.pi
         return x
 
-    
+    # extra functions
+    def get_energy(self, x):
+        kinetic = 0.5 * self.inertia * x[1] * x[1]
+        potential = self.mass * 9.81 * self.com * (math.cos(x[0]) - 1)
+        total = kinetic + potential
+        return total

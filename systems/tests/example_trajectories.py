@@ -20,6 +20,7 @@ if __name__ == '__main__':
     if args.model == "pendulum":
         model = PendulumModel()
 
+
         state = np.array([0.1, 0])
         control = np.array([0.2])
         dt = 0.05

@@ -96,8 +96,43 @@ class ModelBase(object):
             traj[i+1, :] = self.get_next_state(traj[i, :], u[i, :], dt)
         return traj
 
-    def get_linearization(self, x0, u0):
-        pass
+    def linearize(self, x0, u0):
+        """
+        Linearize the model around (x0, u0).
+        Default behaviour will perform numerical linearization with finite differences,
+        but this can be overridden with specific analytic linearizations
+
+        f(x) ~= f0 + A*(dx) + B*(du)
+
+        Args:
+            x0 (numpy arr): state to linearize around. size (state_dim) array
+            u0 (numpy arr): control to linearize around. size (control_dim) array
+
+        Returns:
+            (list of numpy arrs): (f0, A, B)
+        """
+        f0 = self.diff_eq(x0, u0)
+
+        dx = 0.01
+        du = 0.01
+
+        A = np.zeros((self.state_dim, self.state_dim))
+        B = np.zeros((self.state_dim, self.control_dim))
+
+        for i in range(self.state_dim):
+            vec_dx = np.zeros(self.state_dim)
+            vec_dx[i] = dx
+            new_f_x = self.diff_eq(x0 + vec_dx, u0)
+            delta_f_x = (new_f_x - f0) / dx
+            A[:, i] = delta_f_x
+        for i in range(self.control_dim):
+            vec_du = np.zeros(self.control_dim)
+            vec_du[i] = du
+            new_f_u = self.diff_eq(x0, u0 + vec_du)
+            delta_f_u = (new_f_u - f0) / du
+            B[:, i] = delta_f_u
+
+        return f0, A, B
 
 
     def _check_and_clip(self, x, u):

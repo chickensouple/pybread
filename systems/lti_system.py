@@ -29,6 +29,6 @@ class LTISystemModel(ModelBase):
         x_dot = np.dot(self.A, x) + np.dot(self.B, u)
         return x_dot
 
-    def get_linearization(self, x0, u0):
+    def linearize(self, x0, u0):
         f0 = self.diff_eq(x0, u0)
         return f0, self.A, self.B
