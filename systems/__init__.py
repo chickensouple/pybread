@@ -1,5 +1,6 @@
 from . model_base import ModelBase
-from . bouncing_ball import BouncingBallModel
+from . bouncing_ball_1d import BouncingBall1DModel
+from . bouncing_ball_2d import BouncingBall2DModel
 from . pendulum import PendulumModel
 from . lti_system import LTISystemModel
 from . double_integrator import DoubleIntegratorModel

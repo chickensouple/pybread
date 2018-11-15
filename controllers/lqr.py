@@ -125,6 +125,9 @@ class LQR(object):
             Also returns the optimal cost of being in state x0
         """
 
+
+
+
         # S_x * x0 + X_u * u = X
         # TODO: cite morari book
 

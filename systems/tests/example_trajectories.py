@@ -10,7 +10,7 @@ if __name__ == '__main__':
         dest="model",
         type=str, 
         required=True,
-        choices=["pendulum", "bouncing_ball", "lti", 
+        choices=["pendulum", "bouncing_ball_1d", "bouncing_ball_2d", "lti", 
             "double_integrator", "dubins_car", "simple_car", 
             "cart_pole", "rocket"],
         help="Choose which model to test with.")
@@ -50,11 +50,11 @@ if __name__ == '__main__':
         plt.ylabel("theta_dot (rad/2)")
         plt.show()
 
-    elif args.model == "bouncing_ball":
-        model = BouncingBallModel()
+    elif args.model == "bouncing_ball_1d":
+        model = BouncingBall1DModel(bounce_restitution=0.85)
 
-        state = np.array([5, 0, 1, 0])
-        control = np.array([0.1])
+        state = np.array([5, 0, 1])
+        control = np.array([0.5])
         dt = 0.05
 
         num_time_steps = 100
@@ -63,28 +63,67 @@ if __name__ == '__main__':
         traj = model.get_traj(state, controls, dt)
         t = [i*dt for i in range(len(controls)+1)]
 
-        plt.subplot(4, 1, 1)
+        plt.subplot(3, 1, 1)
         plt.plot(t, traj[:, 0])
         plt.xlabel("time (s)")
         plt.ylabel("ball pos (m)")
 
-        plt.subplot(4, 1, 2)
+        plt.subplot(3, 1, 2)
         plt.plot(t, traj[:, 1])
         plt.xlabel("time (s)")
         plt.ylabel("ball vel (m/s)")
 
 
-        plt.subplot(4, 1, 3)
+        plt.subplot(3, 1, 3)
         plt.plot(t, traj[:, 2])
         plt.xlabel("time (s)")
         plt.ylabel("paddle pos (m)")
 
-        plt.subplot(4, 1, 4)
+        plt.show()
+
+    elif args.model == "bouncing_ball_2d":
+        model = BouncingBall2DModel(paddle_length=3)
+
+        state = np.array([0, 3, 0, 0, 0, 0, 0.05])
+        control = np.array([0, 0.5, 0])
+        dt = 0.02
+
+        num_time_steps = 200
+        controls = np.tile(control, [num_time_steps, 1])
+
+        traj = model.get_traj(state, controls, dt)
+        t = [i*dt for i in range(len(controls)+1)]
+
+        plt.figure(1)
+        plt.subplot(4, 1, 1)
+        plt.plot(t, traj[:, 1])
+        plt.xlabel("time (s)")
+        plt.ylabel("y")
+
+        plt.subplot(4, 1, 2)
         plt.plot(t, traj[:, 3])
         plt.xlabel("time (s)")
-        plt.ylabel("paddle vel (m/s)")
+        plt.ylabel("y dot")
+
+        plt.subplot(4, 1, 3)
+        plt.plot(t, traj[:, 0])
+        plt.xlabel("time (s)")
+        plt.ylabel("x")
+
+        plt.subplot(4, 1, 4)
+        plt.plot(t, traj[:, 2])
+        plt.xlabel("time (s)")
+        plt.ylabel("x dot")
+
+
+        plt.figure(2)
+        color = [[float(i) / len(traj), 0., 1.] for i in range(len(traj))]
+        plt.scatter(traj[:, 0], traj[:, 1], color=color)
+        plt.xlabel("x")
+        plt.ylabel("y")
 
         plt.show()
+
     elif args.model == "lti":
         A = np.array([[-0.4, 1.], [-1., 0.2]])
         B = np.zeros((2, 1))

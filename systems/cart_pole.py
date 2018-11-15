@@ -5,9 +5,10 @@ class CartPoleModel(ModelBase):
     """
     Models a typical cartpole system with a pointmass pendulum
 
-    state is [x, theta, x_dot, theta_dot]
+    state is x = [x, theta, x_dot, theta_dot]
     where x is location on track
     theta is angle of pendulum (0 is pointing downwards)
+    control is u = [force applied to cart]
     """
     def __init__(self, mass_cart=1., length=1., mass_pendulum=0.2, max_force=1.):
         """
@@ -18,7 +19,6 @@ class CartPoleModel(ModelBase):
             length (float, optional): length of pendulum in m
             mass_pendulum (float, optional): mass of pendulum in kg
             max_force (float, optional): maximum force applicable in N
-            **kwargs: Description
         """
         control_limits = [np.array([-max_force]), np.array([max_force])]
         super().__init__(
