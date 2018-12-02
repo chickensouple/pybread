@@ -72,8 +72,8 @@ class LQR(object):
         Solves LQR problem with recursive approach.
         This will return the gain matrices for optimal control and the cost matrices
 
-        if keep_intermediate is false, this will only return the K 
-        at the final step of the algrithm (K_1). 
+        if keep_intermediate is false, this will only return the K
+        at the final step of the algrithm (K_1).
         set it to false to get approximate solution to infinite horizon case
 
 
@@ -124,8 +124,12 @@ class LQR(object):
             the first row is the control input at the first time step
             Also returns the optimal cost of being in state x0
         """
-
-
+        if x0.shape == (self.state_dim,):
+            x0 = np.array([x0]).T
+        elif x0.shape == (self.state_dim, 1):
+            pass
+        else:
+            raise Exception("x0 is not right shape")
 
 
         # S_x * x0 + X_u * u = X

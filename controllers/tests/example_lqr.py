@@ -8,7 +8,7 @@ if __name__ == '__main__':
     Q = np.eye(2)
     P = np.eye(2) * 7
     R = np.eye(3)
-    x0 = np.array([[2., 2.]]).T
+    x0 = np.array([2., 2.])
 
     lqr = LQR(A, B, P, Q, R)
 

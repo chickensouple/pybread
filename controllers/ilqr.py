@@ -48,8 +48,8 @@ class iLQR(object):
             x = np.reshape(x, (self.model.state_dim))
 
             x_new = self.model.get_next_state(x, u, dt)
-            x_new = np.reshape(x_new, (self.model.state_dim, 1))
 
+            x_new = np.reshape(x_new, (self.model.state_dim, 1))
             u = np.reshape(u, (self.model.control_dim, 1))
 
 

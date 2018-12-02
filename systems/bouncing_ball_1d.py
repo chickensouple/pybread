@@ -57,5 +57,5 @@ class BouncingBall1DModel(ModelBase):
             x[0] = x[2] + self.ball_radius
         else:
             x[0] = x[2] - self.ball_radius
-        x[1] = -(x[1] - u[0]) * self.bounce_restitution
+        x[1] = -(x[1] - u[0]) * self.bounce_restitution + u[0]
         return x
