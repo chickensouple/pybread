@@ -22,7 +22,6 @@ if __name__ == '__main__':
         action = controller.get_control(state)
         new_state = model.get_next_state(state, action, dt)
 
-
         state_hist[t, :] = state
         control_hist[t, :] = action
 
