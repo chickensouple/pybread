@@ -1,0 +1,45 @@
+<mujoco model="ball paddle">
+  <include file="./common/visual.xml"/>
+  <include file="./common/skybox.xml"/>
+  <include file="./common/materials.xml"/>
+
+  <compiler angle="degree" coordinate="local"/>
+
+  <worldbody>
+    <light name="light" directional="true" diffuse=".6 .6 .6" pos="0 0 2" specular=".3 .3 .3"/>
+    <geom name="ground" type="plane" pos="0 0 0" size="2 2 10" material="grid"/>
+    <camera name="cam0" pos="0 -1 .8" xyaxes="1 0 0 0 1 2"/>
+    <camera name="cam1" pos="0 -1 .4" xyaxes="1 0 0 0 0 1" />
+
+    <body name="paddle_body" pos="0 0 0">
+      <joint name="paddle_x" type="slide" axis="1 0 0"/>
+      <joint name="paddle_y" type="slide" axis="0 1 0"/>
+      <joint name="paddle_z" type="slide" axis="0 0 1"/>
+      <geom name="paddle_base" pos="0 0 0" type="sphere" size="0.001" mass="0.00001"/>
+      <body name="paddle_plate" pos="0 0 0.003">
+        <geom name="paddle_plate" type="box" size = "0.1 0.1 0.001" mass="0.1"/>
+        <joint name="paddle_roll" type="hinge" axis="1 0 0" range="-60 60"/>
+        <joint name="paddle_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+      </body>
+    </body>
+
+    <body name="ball" pos="0 0 1.">
+      <joint name="ball" type="free" />
+      <geom name="ball" type="sphere" size=".025" material="effector" solref="-1 -900" mass="0.00000001"/> 
+      <!-- size is radius -->
+    </body>
+  </worldbody>
+
+  <actuator>
+<!--     <velocity name="x" joint="paddle_x" ctrllimited="true" ctrlrange="-1 1" kv="100"/>
+    <velocity name="y" joint="paddle_y" ctrllimited="true" ctrlrange="-1 1" kv="100"/>
+    <velocity name="z" joint="paddle_z" ctrllimited="true" ctrlrange="-1 1" kv="100"/>
+    <velocity name="roll" joint="paddle_roll" ctrllimited="true" ctrlrange="-60 60" kv="0.2"/>
+    <velocity name="pitch" joint="paddle_pitch" ctrllimited="true" ctrlrange="-60 60" kv="0.2"/> -->
+    <motor name="x" joint="paddle_x"/>
+    <motor name="y" joint="paddle_y"/>
+    <motor name="z" joint="paddle_z"/>
+    <motor name="roll" joint="paddle_roll"/>
+    <motor name="pitch" joint="paddle_pitch"/>
+  </actuator>
+</mujoco>

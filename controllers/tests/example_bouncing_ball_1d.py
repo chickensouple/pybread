@@ -5,8 +5,8 @@ from pybread.systems import BouncingBall1DModel
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    restitution = 0.9
-    desired_height = 7
+    restitution = 0.8
+    desired_height = 9
 
     model = BouncingBall1DModel(max_vel=float('inf'), drag_coeff=0., bounce_restitution=restitution)
     controller = BouncingBall1DController(restitution, desired_height)

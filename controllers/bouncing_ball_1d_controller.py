@@ -15,7 +15,7 @@ class BouncingBall1DController(object):
         ball_vel_at_impact = x[1] + grav*time_until_impact
 
         desired_vel_after_impact = np.sqrt(2*-grav*self.desired_height)
-        desired_paddle_vel = (desired_vel_after_impact + ball_vel_at_impact) / (self.coeff_of_restitution + 1)
+        desired_paddle_vel = (desired_vel_after_impact + ball_vel_at_impact*self.coeff_of_restitution) / (self.coeff_of_restitution + 1)
 
 
         # fit a quadratic path to the controller
